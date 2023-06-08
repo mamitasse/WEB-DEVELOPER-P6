@@ -1,22 +1,31 @@
 const fs = require("fs");
-const Sauce = require("../models/sauce");
+const Sauce = require("../models/sauces");
 
 
 
 exports.createSauce = (req, res) => {
+  console.log(req.body.sauce);
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   const sauce = new Sauce ({
+    
       ...sauceObject,
       likes: 0,
       dislikes: 0,
       usersLiked: [],
       usersDisliked: [],
-      imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`
   });
+  console.log(sauce.imageUrl);
   sauce.save()
       .then(() => {res.status(201).json({message: 'Sauce enregistrée !'})})
-      .catch(error => res.status(400).json({error}))
+      .catch((error) => {
+        console.log(error);
+        res.status(400).json({error})
+      })
+
 };
 
 
@@ -62,7 +71,7 @@ exports.updateSauce = (req, res) => {
               if(req.auth.userId !== sauce.userId){
                   res.status(403).json({message: `Non autorisé !`})
               } else {
-                  const filename = sauce.imageUrl.split("/").at(-1);
+                const filename = sauce.imageUrl.split("/").slice(-1)[0];
                   fs.unlinkSync(`images/${filename}`)
               }
           }),

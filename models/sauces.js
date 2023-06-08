@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+
+
 const sauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true },
@@ -10,14 +12,9 @@ const sauceSchema = mongoose.Schema({
   heat: {
     type: Number,
     required: true,
-    validate: {
-      validator: function (value) {
-        return (
-          Joi.number().integer().min(1).max(10).validate(value).error === null
-        );
-      },
+   
       message: "Le heat doit être un entier compris entre 1 et 10.",
-    },
+   
   },
   likes: { type: Number, required: true },
   dislikes: { type: Number, required: true },
