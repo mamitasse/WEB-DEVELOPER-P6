@@ -36,8 +36,10 @@ exports.getAllSauces = (req, res) => {
 };
 
 exports.getOneSauce = (req, res) => {
+  console.log(sauce);
   Sauce.findOne({_id: req.params.id})
       .then(sauce => res.status(200).json(sauce))
+      
       .catch(error => res.status(404).json({error}))
 };
 
@@ -92,7 +94,7 @@ exports.deleteSauce = (req, res) => {
           if(req.auth.userId !== sauce.userId){
               res.status(403).json({message: `Non autorisé !`})
           } else{
-              const filename = sauce.imageUrl.split("/").at(-1);
+              const filename = sauce.imageUrl.split("/").slice(-1);
               fs.unlink(`images/${filename}`, () => {
                   Sauce.deleteOne({ _id: req.params.id })
                       .then(() => res.status(200).json({ message: "Sauce supprimée !" }))

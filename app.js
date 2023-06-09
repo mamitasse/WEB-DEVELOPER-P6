@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path =require('path');
 
 const app = express();
 
@@ -26,5 +27,6 @@ app.use((req, res, next) => {
 
 app.use("/api/sauces", sauceRoutes);
 app.use("/api/auth", userRoutes);
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 module.exports = app;
