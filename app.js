@@ -11,12 +11,17 @@ const userRoutes = require("./routes/user");
 
 app.use(express.json());
 app.use(cors());
+const dotenv = require("dotenv");
+dotenv.config();
 
 
-mongoose.connect('mongodb+srv://mamitasse:Massi.0310@atlascluster.2qjmjwb.mongodb.net/?retryWrites=true&w=majority',
-  { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+mongoose.connect(process.env.DB_URI, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('Connexion à MongoDB réussie !'))
+.catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
 
